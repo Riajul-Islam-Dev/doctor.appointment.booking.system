@@ -17,11 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,4 +38,44 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the availabilities for the doctor.
+     */
+    public function availabilities()
+    {
+        return $this->hasMany(DoctorAvailability::class, 'doctor_id');
+    }
+
+    /**
+     * Get the appointments where the user is the doctor.
+     */
+    public function appointmentsAsDoctor()
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id');
+    }
+
+    /**
+     * Get the appointments where the user is the patient.
+     */
+    public function appointmentsAsPatient()
+    {
+        return $this->hasMany(Appointment::class, 'patient_id');
+    }
+
+    /**
+     * Check if the user is a doctor.
+     */
+    public function isDoctor()
+    {
+        return $this->role === 'doctor';
+    }
+
+    /**
+     * Check if the user is a patient.
+     */
+    public function isPatient()
+    {
+        return $this->role === 'patient';
+    }
 }
