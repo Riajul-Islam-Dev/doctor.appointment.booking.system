@@ -13,6 +13,22 @@ use App\Http\Requests\StoreAvailabilityRequest;
 class AvailabilityController extends Controller
 {
     /**
+     * Get a list of all doctors.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $doctors = User::where('role', 'doctor')
+            ->select('id', 'name')
+            ->get();
+
+        return response()->json([
+            'doctors' => $doctors,
+        ], 200);
+    }
+
+    /**
      * Store doctor's availability slots.
      *
      * @param StoreAvailabilityRequest $request

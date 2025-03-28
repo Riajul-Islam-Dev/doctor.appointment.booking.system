@@ -19,8 +19,7 @@
                                 <div class="col-md-6">
                                     <select id="doctorId" name="doctor_id" class="form-select" required>
                                         <option value="">Select a Doctor</option>
-                                        <option value="1">Dr. Alice Smith</option>
-                                        <option value="2">Dr. Bob Johnson</option>
+                                        <!-- Populated dynamically -->
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -41,6 +40,19 @@
     </div>
 
     <script>
+        async function loadDoctors() {
+            try {
+                const response = await axios.get('/api/v1/doctors');
+                const doctors = response.data.doctors;
+                const doctorSelect = document.getElementById('doctorId');
+                doctorSelect.innerHTML = '<option value="">Select a Doctor</option>' +
+                    doctors.map(doctor => `<option value="${doctor.id}">${doctor.name}</option>`).join('');
+            } catch (error) {
+                console.error('Error loading doctors:', error);
+                document.getElementById('doctorId').innerHTML = '<option value="">Error loading doctors</option>';
+            }
+        }
+
         async function loadAppointments() {
             const token = localStorage.getItem('token') || '';
             try {
@@ -113,6 +125,8 @@
             }
         });
 
-        loadAppointments(); // Load appointments on page load
+        // Load doctors and appointments on page load
+        loadDoctors();
+        loadAppointments();
     </script>
 @endsection

@@ -25,7 +25,8 @@ Route::prefix('v1')->group(function () {
     // Public routes
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/doctors/{id}/availability', [AvailabilityController::class, 'show']); // Public for patients to view
+    Route::get('/doctors/{id}/availability', [AvailabilityController::class, 'show']);
+    Route::get('/doctors', [AvailabilityController::class, 'index']);
 
     // Protected routes
     Route::middleware('auth:sanctum')->group(function () {
