@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->enum('role', ['admin', 'patient', 'doctor'])->default('patient');
-            $table->rememberToken();
+            $table->integer('doctor_id');
+            $table->integer('patient_id');
+            $table->date('date');
+            $table->time('time_slot');
+            $table->string('status')->default('booked'); // Status (e.g., booked, cancelled)
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('appointments');
     }
 };
