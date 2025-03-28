@@ -48,7 +48,7 @@
                 doctorSelect.innerHTML = '<option value="">Select a Doctor</option>' +
                     doctors.map(doctor => `<option value="${doctor.id}">${doctor.name}</option>`).join('');
             } catch (error) {
-                console.error('Error loading doctors:', error);
+                console.error('Error loading doctors:', error.response ? error.response.data : error.message);
                 document.getElementById('doctorId').innerHTML = '<option value="">Error loading doctors</option>';
             }
         }
@@ -64,8 +64,8 @@
                 const appointments = response.data.appointments;
                 document.getElementById('appointmentsList').innerHTML = appointments.length ?
                     `<ul class="list-group">${appointments.map(a => `
-                        <li class="list-group-item">${a.date} ${a.time_slot} with ${a.doctor.name}</li>
-                    `).join('')}</ul>` :
+                                    <li class="list-group-item">${a.date} ${a.time_slot} with ${a.doctor.name}</li>
+                                `).join('')}</ul>` :
                     '<p class="text-muted">No upcoming appointments</p>';
             } catch (error) {
                 document.getElementById('appointmentsList').innerHTML = `
@@ -83,10 +83,10 @@
                 const availabilities = response.data.availabilities;
                 document.getElementById('availabilityList').innerHTML = availabilities.length ?
                     `<div class="list-group">${availabilities.map(a => `
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            ${a.date} ${a.time_slot}
-                            <button class="bookBtn btn btn-success btn-sm" data-id="${a.id}" data-date="${a.date}" data-time="${a.time_slot}">Book</button>
-                        </div>`).join('')}</div>` :
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        ${a.date} ${a.time_slot}
+                                        <button class="bookBtn btn btn-success btn-sm" data-id="${a.id}" data-date="${a.date}" data-time="${a.time_slot}">Book</button>
+                                    </div>`).join('')}</div>` :
                     '<p class="text-muted">No available slots</p>';
 
                 document.querySelectorAll('.bookBtn').forEach(btn => {
