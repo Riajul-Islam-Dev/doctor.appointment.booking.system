@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\DoctorAvailability;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreAvailabilityRequest;
@@ -23,7 +24,6 @@ class AvailabilityController extends Controller
         $validated = $request->validated();
 
         foreach ($validated['availabilities'] as $availability) {
-            // Check if slot already exists to avoid duplicates
             $exists = DoctorAvailability::where('doctor_id', $user->id)
                 ->where('date', $availability['date'])
                 ->where('time_slot', $availability['time_slot'])
@@ -57,9 +57,16 @@ class AvailabilityController extends Controller
             return response()->json(['message' => 'Doctor not found'], 404);
         }
 
+        // Get available slots by excluding booked appointments
         $availabilities = DoctorAvailability::where('doctor_id', $id)
-            ->whereDoesntHave('appointment', function ($query) {
-                $query->where('status', 'booked');
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('appointments')
+                    ->whereColumn('appointments.doctor_id', 'doctor_availabilities.doctor_id')
+                    ->whereColumn('appointments.date', 'doctor_availabilities.date')
+                    ->whereColumn('appointments.time_slot', 'doctor_availabilities.time_slot')
+                    ->where('appointments.status', 'booked')
+                    ->whereNull('appointments.deleted_at');
             })
             ->get(['id', 'date', 'time_slot']);
 
