@@ -1,31 +1,53 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Doctor Dashboard - Welcome, {{ auth()->user()->name }}</h1>
-        <a href="{{ route('logout') }}" class="text-red-500 mb-4 inline-block">Logout</a>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="card-title mb-0 fs-3">Doctor Dashboard - Welcome, {{ auth()->user()->name }}</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-end mb-4">
+                            <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
+                        </div>
 
-        <h2 class="text-xl mb-2">Set Availability</h2>
-        <form id="availabilityForm" class="mb-6">
-            <div id="slots">
-                <div class="slot mb-4">
-                    <input type="date" name="date[]" class="p-2 border" required>
-                    <input type="time" name="time_slot[]" class="p-2 border" required>
+                        <h2 class="fs-4 mb-3">Set Availability</h2>
+                        <form id="availabilityForm" class="mb-4">
+                            <div id="slots" class="mb-3">
+                                <div class="slot row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <input type="date" name="date[]" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="time" name="time_slot[]" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-3">
+                                <button type="button" id="addSlot" class="btn btn-secondary">Add Another Slot</button>
+                                <button type="submit" class="btn btn-success">Set Availability</button>
+                            </div>
+                        </form>
+                        <div id="availabilityMessage"></div>
+                    </div>
                 </div>
             </div>
-            <button type="button" id="addSlot" class="bg-gray-300 p-2 rounded">Add Another Slot</button>
-            <button type="submit" class="bg-green-500 text-white p-2 rounded">Set Availability</button>
-        </form>
-        <div id="availabilityMessage"></div>
+        </div>
     </div>
 
     <script>
         document.getElementById('addSlot').addEventListener('click', () => {
             const slotDiv = document.createElement('div');
-            slotDiv.className = 'slot mb-4';
+            slotDiv.className = 'slot row g-3 mb-3';
             slotDiv.innerHTML = `
-        <input type="date" name="date[]" class="p-2 border" required>
-        <input type="time" name="time_slot[]" class="p-2 border" required>
+        <div class="col-md-6">
+            <input type="date" name="date[]" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <input type="time" name="time_slot[]" class="form-control" required>
+        </div>
     `;
             document.getElementById('slots').appendChild(slotDiv);
         });
@@ -40,7 +62,7 @@
             }));
 
             try {
-                const token = localStorage.getItem('token') || ''; // Set token after login
+                const token = localStorage.getItem('token') || '';
                 const response = await axios.post('/api/v1/availability', {
                     availabilities
                 }, {
@@ -48,11 +70,17 @@
                         Authorization: `Bearer ${token}`
                     }
                 });
-                document.getElementById('availabilityMessage').innerHTML =
-                    `<p class="text-green-500">${response.data.message}</p>`;
+                document.getElementById('availabilityMessage').innerHTML = `
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                ${response.data.message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
             } catch (error) {
-                document.getElementById('availabilityMessage').innerHTML =
-                    `<p class="text-red-500">${error.response?.data?.message || 'Error setting availability'}</p>`;
+                document.getElementById('availabilityMessage').innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                ${error.response?.data?.message || 'Error setting availability'}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
             }
         });
     </script>
