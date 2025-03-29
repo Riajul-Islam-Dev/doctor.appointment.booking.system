@@ -75,9 +75,9 @@ Populate the database with sample users (doctors and patients):
 php artisan db:seed
 ```
 **Sample Users**:
-- **Doctor**: `alice@doctor.com` / `password123`
-- **Doctor**: `bob@doctor.com` / `password123`
-- **Patient**: `charlie@patient.com` / `password123`
+- **Doctor**: `alice@doctor.com` / `password`
+- **Doctor**: `bob@doctor.com` / `password`
+- **Patient**: `charlie@patient.com` / `password`
 
 *Note*: Update `database/seeders/DatabaseSeeder.php` if you need custom data:
 ```php
@@ -88,19 +88,19 @@ public function run()
     User::create([
         'name' => 'Dr. Alice Smith',
         'email' => 'alice@doctor.com',
-        'password' => bcrypt('password123'),
+        'password' => bcrypt('password'),
         'role' => 'doctor',
     ]);
     User::create([
         'name' => 'Dr. Bob Johnson',
         'email' => 'bob@doctor.com',
-        'password' => bcrypt('password123'),
+        'password' => bcrypt('password'),
         'role' => 'doctor',
     ]);
     User::create([
         'name' => 'Charlie Patient',
         'email' => 'charlie@patient.com',
-        'password' => bcrypt('password123'),
+        'password' => bcrypt('password'),
         'role' => 'patient',
     ]);
 }
@@ -138,7 +138,7 @@ npm run dev
   ```json
   {
       "email": "alice@doctor.com",
-      "password": "password123"
+      "password": "password"
   }
   ```
 - **Response**: Returns a token (store it in `localStorage` as `token`).
