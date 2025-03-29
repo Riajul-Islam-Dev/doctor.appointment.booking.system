@@ -28,6 +28,24 @@
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary btn-block">Login</button>
                             </div>
+                            <div class="mt-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>Login as Doctor</strong>
+                                        <div>
+                                            <span>Email:</span> <code class="text-primary">alice@doctor.com</code><br>
+                                            <span>Password:</span> <code class="text-primary">password</code>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Login as Patient</strong>
+                                        <div>
+                                            <span>Email:</span> <code class="text-primary">charlie@patient.com</code><br>
+                                            <span>Password:</span> <code class="text-primary">password</code>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </form>
                     </div>
                 </div>
