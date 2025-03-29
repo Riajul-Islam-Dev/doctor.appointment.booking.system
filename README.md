@@ -1,67 +1,217 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Doctor Appointment System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web-based application built with Laravel, Sanctum, and Bootstrap, allowing patients to book appointments with doctors and doctors to set their availability.
 
-## About Laravel
+## Features
+- **User Roles**: Patients and Doctors.
+- **Authentication**: Token-based authentication using Laravel Sanctum.
+- **Patient Dashboard**: View doctors, check availability, and book appointments.
+- **Doctor Dashboard**: Set availability slots.
+- **API-Driven**: RESTful API endpoints for managing appointments and availability.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Prerequisites
+Before running the project, ensure you have the following installed:
+- [PHP](https://www.php.net/) (>= 8.1)
+- [Composer](https://getcomposer.org/) (>= 2.0)
+- [Node.js](https://nodejs.org/) (>= 16.x) and npm
+- [MySQL](https://www.mysql.com/) (>= 5.7) or another supported database
+- [Git](https://git-scm.com/)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/doctor-appointment-system.git
+cd doctor-appointment-system
+```
 
-## Learning Laravel
+### 2. Install PHP Dependencies
+Install Laravel dependencies via Composer:
+```bash
+composer install
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 3. Install JavaScript Dependencies
+Install Node.js dependencies for Vite and Axios:
+```bash
+npm install
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 4. Configure Environment
+Copy the `.env.example` file to `.env` and update it with your database credentials:
+```bash
+cp .env.example .env
+```
+Edit `.env`:
+```env
+APP_NAME="Doctor Appointment System"
+APP_URL=http://localhost:8000
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=doctor_appointment_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
+Generate an application key:
+```bash
+php artisan key:generate
+```
 
-## Laravel Sponsors
+### 5. Set Up Database
+Create a MySQL database (e.g., `doctor_appointment_db`):
+```sql
+CREATE DATABASE doctor_appointment_db;
+```
+Run migrations to create tables:
+```bash
+php artisan migrate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 6. Seed the Database
+Populate the database with sample users (doctors and patients):
+```bash
+php artisan db:seed
+```
+**Sample Users**:
+- **Doctor**: `alice@doctor.com` / `password123`
+- **Doctor**: `bob@doctor.com` / `password123`
+- **Patient**: `charlie@patient.com` / `password123`
 
-### Premium Partners
+*Note*: Update `database/seeders/DatabaseSeeder.php` if you need custom data:
+```php
+use App\Models\User;
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+public function run()
+{
+    User::create([
+        'name' => 'Dr. Alice Smith',
+        'email' => 'alice@doctor.com',
+        'password' => bcrypt('password123'),
+        'role' => 'doctor',
+    ]);
+    User::create([
+        'name' => 'Dr. Bob Johnson',
+        'email' => 'bob@doctor.com',
+        'password' => bcrypt('password123'),
+        'role' => 'doctor',
+    ]);
+    User::create([
+        'name' => 'Charlie Patient',
+        'email' => 'charlie@patient.com',
+        'password' => bcrypt('password123'),
+        'role' => 'patient',
+    ]);
+}
+```
+
+### 7. Run the Application
+
+#### Start Laravel Server
+```bash
+php artisan serve
+```
+- The app will run on `http://localhost:8000`.
+
+#### Start Vite Development Server
+```bash
+npm run dev
+```
+- This serves assets (CSS/JS) via `http://localhost:5173`.
+
+*Note*: Both servers must run concurrently for the app to work fully.
+
+## Project Structure
+- **`app/Http/Controllers/API`**: API controllers (`AuthController`, `AvailabilityController`, `AppointmentController`).
+- **`app/Http/Requests`**: Validation request classes (`BookAppointmentRequest`, `StoreAvailabilityRequest`).
+- **`app/Models`**: Eloquent models (`User`, `DoctorAvailability`, `Appointment`).
+- **`resources/views`**: Blade templates (`layouts/app.blade.php`, `patient.blade.php`, `doctor.blade.php`).
+- **`routes/api.php`**: API routes.
+- **`resources/js/app.js`**: Frontend JavaScript (e.g., Axios setup).
+
+## Usage
+
+### 1. Login
+- **Endpoint**: `POST /api/v1/login`
+- **Payload**:
+  ```json
+  {
+      "email": "alice@doctor.com",
+      "password": "password123"
+  }
+  ```
+- **Response**: Returns a token (store it in `localStorage` as `token`).
+- After login, redirect to `/dashboard` (handled by frontend or middleware).
+
+### 2. Patient Dashboard
+- **URL**: `http://localhost:8000/dashboard` (logged in as a patient).
+- **Features**:
+  - View list of doctors.
+  - Check availability for a selected doctor.
+  - Book an appointment.
+- **Sample Flow**:
+  1. Login as `charlie@patient.com`.
+  2. Select a doctor (e.g., "Dr. Alice Smith").
+  3. View available slots (e.g., "2025-03-29 14:00").
+  4. Click "Book" to reserve a slot.
+
+### 3. Doctor Dashboard
+- **URL**: `http://localhost:8000/dashboard` (logged in as a doctor).
+- **Features**:
+  - Set availability slots.
+- **Sample Flow**:
+  1. Login as `alice@doctor.com`.
+  2. Add slots (e.g., "2025-03-29 14:00").
+  3. Submit to save availability.
+
+### 4. API Endpoints
+- **Authentication**:
+  - `POST /api/v1/register`: Register a new user.
+  - `POST /api/v1/login`: Login and get a token.
+  - `POST /api/v1/logout`: Logout (requires token).
+- **Availability**:
+  - `GET /api/v1/doctors`: List all doctors.
+  - `GET /api/v1/doctors/{id}/availability`: Get available slots for a doctor.
+  - `POST /api/v1/availability`: Set availability (doctor only).
+- **Appointments**:
+  - `POST /api/v1/appointments/book`: Book an appointment (patient only).
+  - `GET /api/v1/appointments/{patientId}`: List patient’s appointments.
+
+## Troubleshooting
+- **"Axios is not defined"**:
+  - Ensure `<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>` is in `layouts/app.blade.php` or Axios is included in `resources/js/app.js` with `npm run dev` running.
+- **"Error loading doctors"**:
+  - Check if `/api/v1/doctors` returns data (`curl http://localhost:8000/api/v1/doctors`).
+  - Verify database has doctors (`php artisan tinker: User::where('role', 'doctor')->get()`).
+- **"The date must be today or in the future"**:
+  - Ensure availability slots are future dates.
+- **"The time slot must be in HH:MM format"**:
+  - Frontend normalizes `time_slot` to `HH:MM` (e.g., `14:00`).
+
+## Building for Production
+1. Build assets:
+   ```bash
+   npm run build
+   ```
+2. Configure `.env` for production (e.g., `APP_ENV=production`, update `DB_*` settings).
+3. Serve with a web server (e.g., Nginx/Apache) instead of `php artisan serve`.
 
 ## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Fork the repository.
+- Create a feature branch (`git checkout -b feature-name`).
+- Commit changes (`git commit -m "Add feature"`).
+- Push to branch (`git push origin feature-name`).
+- Open a Pull Request.
 
 ## License
+This project is licensed under the MIT License.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-"# doctor.appointment.booking.system" 
+---
+
+### Notes
+- Replace `your-username` in the `git clone` command with your GitHub username.
+- Adjust the seeding data or add more details (e.g., table schemas) as needed.
+- If you have additional features (e.g., canceling appointments), add them to the "Features" and "API Endpoints" sections.
+
+This README should guide anyone to set up and run your project from scratch. Let me know if you need refinements!
