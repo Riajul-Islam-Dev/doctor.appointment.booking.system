@@ -37,6 +37,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         document.getElementById('addSlot').addEventListener('click', () => {
             const slotDiv = document.createElement('div');
