@@ -178,17 +178,6 @@ npm run dev
   - `POST /api/v1/appointments/book`: Book an appointment (patient only).
   - `GET /api/v1/appointments/{patientId}`: List patient’s appointments.
 
-## Troubleshooting
-- **"Axios is not defined"**:
-  - Ensure `<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>` is in `layouts/app.blade.php` or Axios is included in `resources/js/app.js` with `npm run dev` running.
-- **"Error loading doctors"**:
-  - Check if `/api/v1/doctors` returns data (`curl http://localhost:8000/api/v1/doctors`).
-  - Verify database has doctors (`php artisan tinker: User::where('role', 'doctor')->get()`).
-- **"The date must be today or in the future"**:
-  - Ensure availability slots are future dates.
-- **"The time slot must be in HH:MM format"**:
-  - Frontend normalizes `time_slot` to `HH:MM` (e.g., `14:00`).
-
 ## Building for Production
 1. Build assets:
    ```bash
@@ -196,22 +185,5 @@ npm run dev
    ```
 2. Configure `.env` for production (e.g., `APP_ENV=production`, update `DB_*` settings).
 3. Serve with a web server (e.g., Nginx/Apache) instead of `php artisan serve`.
-
-## Contributing
-- Fork the repository.
-- Create a feature branch (`git checkout -b feature-name`).
-- Commit changes (`git commit -m "Add feature"`).
-- Push to branch (`git push origin feature-name`).
-- Open a Pull Request.
-
-## License
-This project is licensed under the MIT License.
-
----
-
-### Notes
-- Replace `your-username` in the `git clone` command with your GitHub username.
-- Adjust the seeding data or add more details (e.g., table schemas) as needed.
-- If you have additional features (e.g., canceling appointments), add them to the "Features" and "API Endpoints" sections.
 
 This README should guide anyone to set up and run your project from scratch. Let me know if you need refinements!
