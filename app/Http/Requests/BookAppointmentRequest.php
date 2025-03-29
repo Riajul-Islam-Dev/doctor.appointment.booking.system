@@ -25,7 +25,7 @@ class BookAppointmentRequest extends FormRequest
         return [
             'doctor_id' => 'required|exists:users,id',
             'date' => 'required|date|after_or_equal:today',
-            'time_slot' => 'required|date_format:H:i',
+            'time_slot' => 'required|date_format:H:i:s',
         ];
     }
 
