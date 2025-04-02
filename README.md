@@ -132,6 +132,9 @@ npm run dev
 
 ## Usage
 
+### Welcome
+![Welcome Page](readme-assets/welcome-page.png)
+
 ### 1. Login
 - **Endpoint**: `POST /api/v1/login`
 - **Payload**:
@@ -144,6 +147,8 @@ npm run dev
 - **Response**: Returns a token (store it in `localStorage` as `token`).
 - After login, redirect to `/dashboard` (handled by frontend or middleware).
 
+![Login Page](readme-assets/login-page.png)
+
 ### 2. Patient Dashboard
 - **URL**: `http://localhost:8000/dashboard` (logged in as a patient).
 - **Features**:
@@ -153,8 +158,16 @@ npm run dev
 - **Sample Flow**:
   1. Login as `charlie@patient.com`.
   2. Select a doctor (e.g., "Dr. Alice Smith").
+
+![Patient Dashboard](readme-assets/patient-dashboard.png)
+
   3. View available slots (e.g., "2025-03-29 14:00").
+
+![Search Appointment](readme-assets/search-appointment.png)
+
   4. Click "Book" to reserve a slot.
+
+![Book Appointment](readme-assets/book-appointment.png)
 
 ### 3. Doctor Dashboard
 - **URL**: `http://localhost:8000/dashboard` (logged in as a doctor).
@@ -163,7 +176,12 @@ npm run dev
 - **Sample Flow**:
   1. Login as `alice@doctor.com`.
   2. Add slots (e.g., "2025-03-29 14:00").
+
+![Doctor Dashboard](readme-assets/doctor-dashboard.png)
+
   3. Submit to save availability.
+
+![Set Availability](readme-assets/set-availability.png)
 
 ### 4. API Endpoints
 - **Authentication**:
