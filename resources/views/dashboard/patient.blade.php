@@ -83,7 +83,7 @@
             const doctorId = document.getElementById('doctorId').value;
             try {
                 const response = await axios.get(
-                    `http://localhost:8000/api/v1/doctors/${doctorId}/availability`);
+                    `/api/v1/doctors/${doctorId}/availability`);
                 const availabilities = response.data.availabilities;
                 document.getElementById('availabilityList').innerHTML = availabilities.length ?
                     `<div class="list-group">${availabilities.map(a => `
@@ -98,7 +98,7 @@
                         const token = localStorage.getItem('token') || '';
                         try {
                             const response = await axios.post(
-                                'http://localhost:8000/api/v1/appointments/book', {
+                                '/api/v1/appointments/book', {
                                     doctor_id: doctorId,
                                     date: btn.dataset.date,
                                     time_slot: btn.dataset.time
